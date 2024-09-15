@@ -2,20 +2,38 @@
  * 實例 056 建置函數的互相呼叫
  */
 
-A a1 = new(100);
-A a2 = new();
+Production p1 = new();
+Production p2 = new(Guid.NewGuid(), "p2", DateTime.Today.AddDays(-1));
+Production p3 = new("p3", DateTime.Today.AddDays(-2));
 
-Console.WriteLine(a1.Num);
-Console.WriteLine(a2.Num);
+p1.Print();
+Console.WriteLine("-");
+p2.Print();
+Console.WriteLine("-");
+p3.Print();
 
 
-public class A
+public class Production
 {
-    public int Num;
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public DateTime ProductDate { get; set; }
 
-    public A(int num)
+    public Production(Guid id, string name, DateTime productDate)
     {
-        this.Num = num;
+        Id = id;
+        Name = name;
+        ProductDate = productDate;
     }
-    public A() : this(1000) { }
+
+    public Production(string name, DateTime productDate)
+        : this(Guid.NewGuid(), name, productDate) { }
+
+    public Production()
+        : this(Guid.NewGuid(), "未知產品", DateTime.Today) { }
+
+    public void Print()
+    {
+        Console.WriteLine($"產品編號：{Id}\n產品名稱：{Name}\n生產日期：{ProductDate}");
+    }
 }
